@@ -1,6 +1,9 @@
-import {combineReducers} from 'redux';
-import wiki from './wiki'
+import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
+import wiki from "./wiki";
+import history from "../history";
 
 export default combineReducers({
-    'wiki': wiki
-})
+  router: connectRouter(history),
+  wiki
+});

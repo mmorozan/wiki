@@ -3,7 +3,9 @@ import "antd/dist/antd.css";
 import { Menu, Icon, Row, Col } from "antd";
 import MySearch from "./search";
 import { NavLink } from "react-router-dom";
-
+import { selectWiki } from "../../../store/selectors";
+import { connect } from "react-redux";
+import { getWiki } from "../../../store/ac";
 const { SubMenu } = Menu;
 
 const style = {
@@ -14,11 +16,16 @@ const style = {
   }
 };
 class SideMenu extends Component {
+  componentDidMount() {
+    if (this.props.fetchData) {
+      this.props.fetchData();
+    }
+  }
   // submenu keys of first level
   rootSubmenuKeys = ["sub1", "sub2", "sub4"];
 
   state = {
-    openKeys: ["sub1"]
+    openKeys: []
   };
 
   onOpenChange = openKeys => {
@@ -100,4 +107,9 @@ class SideMenu extends Component {
   }
 }
 
-export default SideMenu;
+export default connect(
+  state => ({ wiki: selectWiki(state) }),
+  dispatch => ({
+    fetchData: () => dispatch(getWiki())
+  })
+)(SideMenu);
